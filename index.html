@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pranav Mehta | Full Stack Engineer</title>
+
+    <!-- Fonts & Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Fira+Code:wght@400;600&display=swap"
+        rel="stylesheet">
+
+    <!-- Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-dark: #0a0a0a;
+            --bg-card: rgba(25, 25, 25, 0.6);
+            --primary: #00f2ff;
+            /* Cyber Cyan */
+            --secondary: #7000ff;
+            /* Neon Purple */
+            --text-main: #ffffff;
+            --text-muted: #a0a0a0;
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* --- Background Particles Container --- */
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: radial-gradient(circle at center, #111 0%, #000 100%);
+        }
+
+        /* --- Typography Utilities --- */
+        .highlight {
+            color: var(--primary);
+        }
+
+        .mono {
+            font-family: 'Fira Code', monospace;
+        }
+
+        /* --- Navigation --- */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 5%;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            background: rgba(10, 10, 10, 0.8);
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
+
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            margin-left: 2rem;
+            font-size: 0.9rem;
+            transition: 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        /* --- Hero Section --- */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 0 10%;
+            position: relative;
+            padding-top: 80px;
+            /* Offset for fixed nav */
+        }
+
+        .hero h1 {
+            font-size: clamp(3rem, 8vw, 5rem);
+            font-weight: 800;
+            line-height: 1.1;
+            background: linear-gradient(to right, #fff, #888);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+        }
+
+        .hero h2 {
+            font-size: clamp(1.5rem, 4vw, 2rem);
+            color: var(--primary);
+            margin-bottom: 2rem;
+            height: 3rem;
+        }
+
+        .hero p {
+            max-width: 600px;
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            margin-bottom: 3rem;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+            transition: 0.3s;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 100%;
+            background: var(--primary);
+            z-index: -1;
+            transition: 0.3s ease-in-out;
+        }
+
+        .btn:hover::before {
+            width: 100%;
+        }
+
+        .btn:hover {
+            color: #000;
+            box-shadow: 0 0 20px var(--primary);
+        }
+
+        /* --- Section Common Styling --- */
+        section {
+            padding: 6rem 10%;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            margin-bottom: 4rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background: var(--primary);
+        }
+
+        /* --- About Section Styling --- */
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .about-text p {
+            margin-bottom: 1.5rem;
+            color: var(--text-muted);
+            font-size: 1.05rem;
+        }
+
+        .about-stats {
+            display: flex;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .stat-item h3 {
+            font-size: 2.5rem;
+            color: var(--primary);
+            line-height: 1;
+        }
+
+        .stat-item p {
+            font-size: 0.9rem;
+            margin: 0;
+        }
+
+        .profile-card {
+            position: relative;
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.01));
+            padding: 2rem;
+            border-radius: 20px;
+            border: 1px solid var(--glass-border);
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .profile-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+        }
+
+        .profile-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            z-index: -1;
+            background: radial-gradient(circle at top right, rgba(0, 242, 255, 0.1), transparent 50%);
+            border-radius: 20px;
+        }
+
+        /* --- Experience (Timeline) --- */
+        .timeline {
+            border-left: 2px solid var(--glass-border);
+            margin-left: 10px;
+        }
+
+        .timeline-item {
+            margin-left: 40px;
+            margin-bottom: 4rem;
+            position: relative;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -51px;
+            top: 5px;
+            width: 20px;
+            height: 20px;
+            background: var(--bg-dark);
+            border: 2px solid var(--primary);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--primary);
+        }
+
+        .job-card {
+            background: var(--bg-card);
+            padding: 2rem;
+            border: 1px solid var(--glass-border);
+            border-radius: 10px;
+            backdrop-filter: blur(5px);
+            transition: transform 0.3s;
+        }
+
+        .job-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+        }
+
+        .job-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+            align-items: baseline;
+        }
+
+        .job-header h4 {
+            font-size: 1.2rem;
+        }
+
+        .job-achievements li {
+            margin-bottom: 0.8rem;
+            list-style: none;
+            position: relative;
+            padding-left: 1.5rem;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        .job-achievements li::before {
+            content: '▹';
+            position: absolute;
+            left: 0;
+            color: var(--primary);
+        }
+
+        /* --- Projects Grid --- */
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .project-card {
+            background: var(--bg-card);
+            padding: 2rem;
+            border-radius: 10px;
+            border: 1px solid var(--glass-border);
+            transition: 0.3s;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .project-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 30px rgba(0, 242, 255, 0.1);
+            border-color: var(--primary);
+        }
+
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: auto;
+            padding-top: 1rem;
+        }
+
+        .tech-tag {
+            font-size: 0.8rem;
+            font-family: 'Fira Code', monospace;
+            color: var(--primary);
+            background: rgba(0, 242, 255, 0.1);
+            padding: 0.2rem 0.6rem;
+            border-radius: 4px;
+        }
+
+        /* --- Skills --- */
+        .skills-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .skill-pill {
+            padding: 0.8rem 1.5rem;
+            background: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: 0.3s;
+            cursor: default;
+        }
+
+        .skill-pill:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            transform: scale(1.05);
+            box-shadow: 0 0 10px rgba(0, 242, 255, 0.2);
+        }
+
+        /* --- Footer --- */
+        footer {
+            text-align: center;
+            padding: 4rem 0;
+            border-top: 1px solid var(--glass-border);
+            background: #050505;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .social-links a {
+            color: var(--text-main);
+            font-size: 1.5rem;
+            transition: 0.3s;
+        }
+
+        .social-links a:hover {
+            color: var(--primary);
+            transform: scale(1.2);
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .hero {
+                padding: 100px 5% 0 5%;
+            }
+
+            section {
+                padding: 4rem 5%;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            /* Simple hide for demo */
+            .about-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .stat-item h3 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Background Animation -->
+    <div id="particles-js"></div>
+
+    <!-- Navbar -->
+    <nav>
+        <div class="logo">PM<span class="highlight">.</span></div>
+        <div class="nav-links">
+            <a href="#about">About</a>
+            <a href="#experience">Experience</a>
+            <a href="#projects">Projects</a>
+            <a href="#skills">Skills</a>
+            <a href="mailto:pranav.mehta11@gmail.com" class="highlight">Contact</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div data-aos="fade-up" data-aos-duration="1000">
+            <p class="mono highlight">Hi, my name is</p>
+            <h1>Pranav Mehta.</h1>
+            <h2 class="mono" id="typewriter"></h2>
+            <p>
+                I architect scalable microservices and build high-performance interfaces.
+                Specializing in modernizing legacy systems and optimizing distributed architecture at
+                <span class="highlight">IBM</span>.
+            </p>
+            <a href="#experience" class="btn">Check My Work</a>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about">
+        <h3 class="section-title" data-aos="fade-right">About Me</h3>
+
+        <div class="about-grid">
+            <!-- Text Content -->
+            <div class="about-text" data-aos="fade-up">
+                <p>
+                    I am a software engineer obsessed with <strong>efficiency</strong>. My journey started with a
+                    fascination for competitive problem solving (Top 1% in JEE Mains), which evolved into a passion for
+                    building large-scale distributed systems.
+                </p>
+                <p>
+                    Currently, I work at <span class="highlight">IBM CIO</span>, where I don't just write code, I
+                    modernize ecosystems. I specialize in breaking down monolithic legacy applications into resilient
+                    <strong>Microservices</strong> and optimizing frontend performance to be lightning-fast.
+                </p>
+                <p>
+                    When I'm not tuning DB2 queries or configuring Kafka topics, you can find me on the turf. As a
+                    <strong>sports person</strong>, I bring the same discipline, speed, and competitive edge to my
+                    engineering projects.
+                </p>
+
+                <div class="about-stats">
+                    <div class="stat-item">
+                        <h3>3+</h3>
+                        <p>Years Exp.</p>
+                    </div>
+                    <div class="stat-item">
+                        <h3>10+</h3>
+                        <p>Projects</p>
+                    </div>
+                    <div class="stat-item">
+                        <h3>99.9%</h3>
+                        <p>Uptime</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Visual/Profile Card -->
+            <div class="profile-card" data-aos="fade-left">
+                <!-- REPLACE THE ICON BELOW WITH YOUR IMAGE IF YOU WANT -->
+                <!-- <img src="your-photo.jpg" style="width: 150px; height: 150px; border-radius: 50%; object-fit: cover; margin-bottom: 1.5rem; border: 3px solid var(--primary);"> -->
+                <i class="fas fa-user-astronaut fa-5x highlight" style="margin-bottom: 1.5rem;"></i>
+
+                <h4>Pranav Mehta</h4>
+                <p class="mono" style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1.5rem;">
+                    Full Stack Engineer based in Bangalore
+                </p>
+                <div style="text-align: left; background: rgba(0,0,0,0.3); padding: 1rem; border-radius: 10px;">
+                    <p class="mono" style="font-size: 0.8rem; margin-bottom: 5px;">
+                        <span style="color: #ff5f56">root@pranav</span>:~$ current_focus
+                    </p>
+                    <p class="mono" style="font-size: 0.8rem; color: var(--primary);">
+                        ["React Performance", "Spring Boot 3", "System Design"]
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section id="experience">
+        <h3 class="section-title" data-aos="fade-right">Where I've Worked</h3>
+
+        <div class="timeline">
+            <!-- Job 1 -->
+            <div class="timeline-item" data-aos="fade-up">
+                <div class="job-card">
+                    <div class="job-header">
+                        <h4>Software Developer @ <span class="highlight">IBM CIO</span></h4>
+                        <span class="mono">Aug 2022 - Present</span>
+                    </div>
+                    <ul class="job-achievements">
+                        <li>Spearheaded modernization of <strong>Expense Insight & RAOPS</strong> to microservices on
+                            OpenShift, achieving <strong>99.9% uptime</strong>.</li>
+                        <li>Engineered an <strong>Analytics Dashboard</strong> automating PPTs, saving leadership
+                            <strong>10+ hours/week</strong>.
+                        </li>
+                        <li>Optimized <strong>DB2 & REST APIs</strong>, increasing data fetch efficiency by
+                            <strong>40%</strong> via advanced query tuning and Redis caching.
+                        </li>
+                        <li>Fixed <strong>OVP Recovery Tool</strong> bottlenecks, enabling bulk processing of requests
+                            previously rejected by system limits.</li>
+                        <li>Architected "External Requests" backend for <strong>GEMCAP</strong>, closing major
+                            compliance gaps in case assignments.</li>
+                        <li>Developed automated <strong>Out-of-Policy Travel</strong> notification templates, reducing
+                            manual examiner workload by 25%.</li>
+                        <li>Migrated frontend to <strong>React (Carbon Design)</strong> with lazy loading, reducing page
+                            load time by <strong>35%</strong>.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Job 2 -->
+            <div class="timeline-item" data-aos="fade-up" data-aos-delay="100">
+                <div class="job-card">
+                    <div class="job-header">
+                        <h4>Software Intern @ <span class="highlight">IBM CIO</span></h4>
+                        <span class="mono">Jan 2022 - Jul 2022</span>
+                    </div>
+                    <ul class="job-achievements">
+                        <li>Developed responsive UI components using <strong>Angular 8</strong> adhering to WCAG 2.1
+                            accessibility standards.</li>
+                        <li>Built decoupled real-time email notification services using <strong>Spring Boot</strong>.
+                        </li>
+                        <li>Integrated Angular data tables with backend sorting and filtering for complex dataset
+                            visualization.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects">
+        <h3 class="section-title" data-aos="fade-right">Featured Projects</h3>
+        <div class="project-grid">
+
+            <!-- Project 1 -->
+            <div class="project-card" data-aos="zoom-in">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                    <i class="fas fa-link fa-2x highlight"></i>
+                    <i class="fas fa-external-link-alt"></i>
+                </div>
+                <h4>Scalable URL Shortener</h4>
+                <p style="color:var(--text-muted); font-size: 0.9rem; margin-top: 10px;">
+                    A high-availability distributed system handling <strong>1K+ writes/sec</strong>. Implemented Base62
+                    encoding, Redis write-through caching, and Kafka for analytics decoupling.
+                </p>
+                <div class="tech-stack">
+                    <span class="tech-tag">Java</span>
+                    <span class="tech-tag">Spring Boot</span>
+                    <span class="tech-tag">Redis</span>
+                    <span class="tech-tag">Kafka</span>
+
+                </div>
+            </div>
+
+            <!-- Project 2 -->
+            <div class="project-card" data-aos="zoom-in" data-aos-delay="100">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                    <i class="fas fa-shopping-cart fa-2x highlight"></i>
+                    <i class="fas fa-external-link-alt"></i>
+                </div>
+                <h4>Real-Time E-Commerce Dash</h4>
+                <p style="color:var(--text-muted); font-size: 0.9rem; margin-top: 10px;">
+                    Admin dashboard with secure Stripe payments and Socket.IO inventory updates. Optimized frontend to
+                    achieve a <strong>Lighthouse score of 95+</strong>.
+                </p>
+                <div class="tech-stack">
+                    <span class="tech-tag">React</span>
+                    <span class="tech-tag">Node.js</span>
+                    <span class="tech-tag">Socket.IO</span>
+                    <span class="tech-tag">Stripe</span>
+                </div>
+            </div>
+
+            <!-- Project 3 -->
+            <div class="project-card" data-aos="zoom-in" data-aos-delay="200">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                    <i class="fas fa-bell fa-2x highlight"></i>
+                    <i class="fas fa-external-link-alt"></i>
+                </div>
+                <h4>Distributed Notification Service</h4>
+                <p style="color:var(--text-muted); font-size: 0.9rem; margin-top: 10px;">
+                    Fan-out architecture using <strong>Redis Pub/Sub</strong> to sync state across instances and
+                    WebSockets for sub-second alert delivery.
+                </p>
+                <div class="tech-stack">
+                    <span class="tech-tag">Java</span>
+                    <span class="tech-tag">Redis Pub/Sub</span>
+                    <span class="tech-tag">WebSockets</span>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Skills & Achievements -->
+    <section id="skills" style="background: rgba(255,255,255,0.02);">
+        <h3 class="section-title" style="text-align: center; width: 100%;" data-aos="fade-up">Technical Arsenal</h3>
+
+        <div class="skills-container" data-aos="fade-up">
+            <div class="skill-pill">Java </div>
+            <div class="skill-pill">Spring Boot </div>
+            <div class="skill-pill">HTML</div>
+            <div class="skill-pill">CSS </div>
+            <div class="skill-pill">DSA</div>
+            <div class="skill-pill">Problem Solving</div>
+            <div class="skill-pill">React.js</div>
+            <div class="skill-pill">Microservices</div>
+            <div class="skill-pill">Kafka</div>
+            <div class="skill-pill">Docker & K8s</div>
+            <div class="skill-pill">Redis</div>
+            <div class="skill-pill">AWS ECS</div>
+            <div class="skill-pill">SQL / DB2</div>
+            <div class="skill-pill">System Design</div>
+        </div>
+
+        <div style="margin-top: 4rem; text-align: center;">
+            <h4 style="margin-bottom: 1rem; color: var(--primary);">Notable Achievements</h4>
+            <div style="display: inline-block; text-align: left; color: var(--text-muted);">
+                <p class="mono"><i class="fas fa-trophy highlight"></i> AIR 12,456 in JEE Mains (Top 1% in India)</p>
+                <p class="mono" style="margin-top: 10px;"><i class="fas fa-medal highlight"></i> Gold Medalist - 100m
+                    Sprint (IIIT Sports Fest)</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="social-links">
+            <a href="https://linkedin.com/in/pranav-mehta-490025145" target="_blank"><i class="fab fa-linkedin"></i></a>
+            <a href="mailto:pranav.mehta11@gmail.com"><i class="fas fa-envelope"></i></a>
+            <a href="#" target="_blank"><i class="fab fa-github"></i></a>
+        </div>
+        <p class="mono" style="font-size: 0.8rem; color: var(--text-muted);">Designed & Built by Pranav Mehta</p>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+
+    <script>
+        // Initialize Scroll Animations
+        AOS.init({
+            once: true,
+            offset: 100,
+            duration: 800
+        });
+
+        // Typewriter Effect
+        const textElement = document.getElementById('typewriter');
+        const texts = ["I build Scalable Systems.", "I solve Complex Problems.", "I am a Full Stack Developer."];
+        let count = 0;
+        let index = 0;
+        let currentText = "";
+        let letter = "";
+
+        (function type() {
+            if (count === texts.length) {
+                count = 0;
+            }
+            currentText = texts[count];
+            letter = currentText.slice(0, ++index);
+
+            textElement.textContent = letter;
+            if (letter.length === currentText.length) {
+                setTimeout(() => {
+                    // Pause at end
+                    let deleteInterval = setInterval(() => {
+                        letter = currentText.slice(0, --index);
+                        textElement.textContent = letter;
+                        if (index === 0) {
+                            clearInterval(deleteInterval);
+                            count++;
+                            type();
+                        }
+                    }, 50);
+                }, 2000);
+            } else {
+                setTimeout(type, 100);
+            }
+        })();
+
+        // Particles Config
+        particlesJS("particles-js", {
+            "particles": {
+                "number": { "value": 80, "density": { "enable": true, "value_area": 800 } },
+                "color": { "value": "#00f2ff" },
+                "shape": { "type": "circle" },
+                "opacity": { "value": 0.5, "random": false },
+                "size": { "value": 3, "random": true },
+                "line_linked": { "enable": true, "distance": 150, "color": "#ffffff", "opacity": 0.1, "width": 1 },
+                "move": { "enable": true, "speed": 1, "direction": "none", "random": false, "straight": false, "out_mode": "out", "bounce": false }
+            },
+            "interactivity": {
+                "detect_on": "canvas",
+                "events": {
+                    "onhover": { "enable": true, "mode": "grab" },
+                    "onclick": { "enable": true, "mode": "push" },
+                    "resize": true
+                },
+                "modes": {
+                    "grab": { "distance": 140, "line_linked": { "opacity": 1 } }
+                }
+            },
+            "retina_detect": true
+        });
+    </script>
+</body>
+
+</html>
